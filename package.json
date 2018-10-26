@@ -1,0 +1,23 @@
+{
+  "name": "wed-developer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeLake1999/Wed-Developer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeLake1999/Wed-Developer/issues"
+  },
+  "homepage": "https://github.com/MikeLake1999/Wed-Developer#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "inpress": "0.0.1-alpha2"
+  }
+}
