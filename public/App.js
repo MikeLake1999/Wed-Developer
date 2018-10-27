@@ -24,10 +24,10 @@ class Weather extends React.Component {
         }
 
         this.state = {
-            url: "https://api.weatherbit.io/v2.0/forecast/daily?city=Hanoi&key=fe19e1593aee4c65afac6ad9d387df29",
+            url: "https://api.weatherbit.io/v2.0/forecast/daily?city=Hanoi&key=fc7c2563e1da4c36b42e2b3ee478f6b4",
             cityWeatherDaily: [],
 
-            urls: "https://api.weatherbit.io/v2.0/forecast/3hourly?city=Hanoi&key=fe19e1593aee4c65afac6ad9d387df29",
+            urls: "https://api.weatherbit.io/v2.0/forecast/3hourly?city=Hanoi&key=fc7c2563e1da4c36b42e2b3ee478f6b4",
             cityWeatherHourly: [],
             hours: hour,
             date: day,
@@ -74,6 +74,8 @@ class Weather extends React.Component {
                                 {e.min_temp}°
                             </div>
                             <div><h5>{e.weather.description}</h5></div>
+                            <div>💧{e.rh}%</div>
+                            <div>⇖{e.wind_spd} m/s</div>
                         </div>
 
                     )
@@ -103,7 +105,7 @@ class Weather extends React.Component {
                     var image = "/image/" + e.weather.icon + ".png";
                     return (
                         <div class="container" key={e.datetime}>
-                            {/* <div class="h3">{e.datetime}</div> */}
+                            <div class="h3">{e.datetime}.00h</div>
                             <h2 class="display-3"><img alt="Responsive image" src={image} width="50" height="50" /></h2>
                             <div>
                                 <h5>{e.temp}°</h5>
@@ -251,7 +253,7 @@ class Weather extends React.Component {
                         <p class=" text-center text-secondary">Barometer: {barometer}.00 mb 　 Humidity: {humidity} 　Dew Point: {temp - 6}°</p>
                     </strong>
                     <div class="container">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-success">
                             <thead>
                                 <tr>
                                     <th>Daily</th>
@@ -261,11 +263,11 @@ class Weather extends React.Component {
                             <tbody>
                                 <tr>
                                     <td><div><p class="pb-5">{this.state.cityWeatherDaily[1]}</p></div></td>
-                                    <td><div>{hour + 3}:00<p class="pb-5">{this.state.cityWeatherHourly[2]}</p></div></td>
+                                    <td><div><p class="pb-5">{this.state.cityWeatherHourly[2]}</p></div></td>
                                 </tr>
                                 <tr>
                                     <td><div><p class="pb-5">{this.state.cityWeatherDaily[2]}</p></div></td>
-                                    <td><div>{hour + 6}:00<p class="pb-5">{this.state.cityWeatherHourly[3]}</p></div></td>
+                                    <td><div><p class="pb-5">{this.state.cityWeatherHourly[3]}</p></div></td>
                                 </tr>
                                 <tr>
                                     <td><div><p class="pb-5">{this.state.cityWeatherDaily[3]}</p></div></td>
@@ -297,10 +299,11 @@ class Weather extends React.Component {
                                 </tr>
                                 <tr>
                                     <td><div><p class="pb-5">{this.state.cityWeatherDaily[10]}</p></div></td>
-                                    <td><div><p class="pb-5">{this.state.cityWeatherHourly[2]}</p></div></td>
+                                    <td><div><p class="pb-5">{this.state.cityWeatherHourly[11]}</p></div></td>
                                 </tr>
                             </tbody>
                         </table>
+                        
                     </div>
 
                 </div>
