@@ -206,7 +206,7 @@ class Weather1 extends React.Component {
 
     componentDidMount() {
 
-        var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
+        var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
 
         fetch(url).then(response => {
             if (response.status == 200) {
@@ -227,7 +227,7 @@ class Weather1 extends React.Component {
     // componentDidUpdate(prevProps, prevState) {
 
     //     if (this.state.city !== prevState.city) {
-    //         var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
+    //         var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
 
     //         fetch(url).then(response => {
     //             if (response.status == 200) {
@@ -430,7 +430,7 @@ class Weather2 extends React.Component {
 
     componentDidMount() {
 
-        var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
+        var url = "https://api.weatherbit.io/v2.0/forecast/3hourly?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
 
         fetch(url).then(response => {
             if (response.status == 200) {
@@ -615,7 +615,7 @@ class HourlyDetails extends React.Component {
                     <span>⇖{this.props.winds}m/s</span>
                 </div>
                 ___________________________________________________________________________________
-                <div>{this.props._date}</div>
+                <div>{this.props.date}:00h</div>
             </div>
         );
     }
@@ -631,18 +631,8 @@ class Hourly extends React.Component {
         if (this.props._noti == "") {
             var dailyWeathersz = this.props.dailyData.data.map(e => {
                 var _src = "https://www.weatherbit.io/static/img/icons/" + e.weather.icon + ".png";
-                var d = new Date(e.valid_date);
-                var day = new Array();
-                day[0] = "0:00";
-                day[1] = "3:00";
-                day[2] = "6:00";
-                day[3] = "9:00";
-                day[4] = "12:00";
-                day[5] = "15:00";
-                day[6] = "18:00";
-                day[7] = "21:00";
-                var _date = (day[d.getDay()].toString());
-                return (<HourlyDetails key={e.valid_date} _data={e} _date={_date} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.max_temp} description={e.weather.description} humidity={e.rh} winds={e.wind_spd} />);
+            
+                return (<HourlyDetails key={e.valid_date} _data={e} date={e.datetime} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.temp} description={e.weather.description} humidity={e.rh} winds={e.wind_spd} />);
             });
             return (
                 <div className=" text-dark row d-flex justify-content-center">
