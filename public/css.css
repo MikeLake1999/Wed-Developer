@@ -1,0 +1,25 @@
+
+
+.live__scroll {
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+    padding: 0px;
+    margin-left: 2px;
+    background-color: white;
+}
+
+.live__scroll .row {
+    display: block;
+}
+
+.live__scroll .live__scroll--box {
+    display: inline-block;
+    padding: 15px;
+    width: 200px;
+    height: 150px;
+    margin-right: 1px;
+    margin-left: 1px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
