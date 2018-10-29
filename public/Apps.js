@@ -1,4 +1,4 @@
-class Weather1 extends React.Component {
+class Weather extends React.Component {
 
     constructor(props) {
         super(props);
@@ -182,7 +182,7 @@ class Weather1 extends React.Component {
     }
 }
 
-class Weather extends React.Component {
+class Weather1 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -338,7 +338,7 @@ class DailyWeather extends React.Component {
     }
     render() {
         return (
-            <div id={this.props._data.valid_date} className="live__scroll--box align-self-baseline" onClick={this.selectWeather}>
+            <div id={this.props._data.valid_date} className="scrolls_block align-self-baseline" onClick={this.selectWeather}>
                 <div>{this.props._date}</div>
                 <img className="d-inline" height="40" width="40" src={this.props._src} />
                 <div>
@@ -382,7 +382,7 @@ class Daily extends React.Component {
                         </g>
                     </svg>
                     <div className="col-8 my-4 col-xs-10 px-0 my-0 dailyz"><h5>Daily</h5>
-                        <div className="live__scroll no-gutters" id="horizon">
+                        <div className="scrolls no-gutters" id="horizon">
                             <div className="row text-center justify-content-center no-gutters">
                                 <div className="row">
                                     {dailyWeathersz}
@@ -447,7 +447,7 @@ class Weather2 extends React.Component {
             });
 
 
-            document.getElementById(this.state.currentid).className = "live__scroll--box align-self-baseline daychoose";
+            document.getElementById(this.state.currentid).className = "scrolls_block align-self-baseline daychoose";
 
         })
     }
@@ -488,7 +488,7 @@ class Weather2 extends React.Component {
     //                 weathermain: weathermain
     //             });
 
-    //             document.getElementById(this.state.currentid.toString()).className = "live__scroll--box align-self-baseline daychoose";
+    //             document.getElementById(this.state.currentid.toString()).className = "scrolls_block align-self-baseline daychoose";
 
     //             try {
     //             } catch (error) {
@@ -500,9 +500,9 @@ class Weather2 extends React.Component {
 
 
     //     if (this.state.weathermain != prevState.weathermain) {
-    //         document.getElementById(this.state.currentid).className = "live__scroll--box align-self-baseline daychoose";
+    //         document.getElementById(this.state.currentid).className = "scrolls_block align-self-baseline daychoose";
     //         try {
-    //             document.getElementById(this.state.preid).className = "live__scroll--box align-self-baseline";
+    //             document.getElementById(this.state.preid).className = "scrolls_block align-self-baseline";
     //         } catch (error) {
 
     //         }
@@ -578,9 +578,6 @@ class ShowHourly extends React.Component {
     selectWeather = (value) => {
         this.props._selectWeather(value);
     }
-    onClickHandle = (value) => {
-        this.props._onClickHandle(value);
-    }
     render() {
         if (this.props.weather.length == 0) {
             return <div></div>;
@@ -591,7 +588,7 @@ class ShowHourly extends React.Component {
         var noti = this.props.noti;
         var _daily = this.props.weather;
         return (<div>
-            
+
             <Hourly dailyData={_daily} _noti={noti} _selectWeather={this.selectWeather} />
         </div>);
     }
@@ -605,13 +602,20 @@ class HourlyDetails extends React.Component {
     }
     render() {
         return (
-            <div id={this.props._data.valid_date} className="live__scroll--box align-self-baseline" onClick={this.selectWeather}>
-                <div>{this.props._date}</div>
+            <div id={this.props._data.valid_date} className="scrolls_block align-self-baseline" onClick={this.selectWeather}>
                 <img className="d-inline" height="40" width="40" src={this.props._src} />
                 <div>
                     <h5 className="d-inline">{this.props.maxtemp + 2}<sup>o</sup></h5>
                 </div>
                 <strong>{this.props.description}</strong>
+                <div>
+                    <span>💧{this.props.humidity}%</span>
+                </div>
+                <div>
+                    <span>⇖{this.props.winds}m/s</span>
+                </div>
+                ___________________________________________________________________________________
+                <div>{this.props._date}</div>
             </div>
         );
     }
@@ -622,14 +626,6 @@ class HourlyDetails extends React.Component {
 class Hourly extends React.Component {
     selectWeather = (value) => {
         this.props._selectWeather(value);
-    }
-    _scrollLeft = () => {
-        var elmnt = document.getElementById("horizon");
-        elmnt.scrollLeft = elmnt.scrollLeft - 100;
-    }
-    _scrollRight = () => {
-        var elmnt = document.getElementById("horizon");
-        elmnt.scrollLeft = elmnt.scrollLeft + 100;
     }
     render() {
         if (this.props._noti == "") {
@@ -646,7 +642,7 @@ class Hourly extends React.Component {
                 day[6] = "18:00";
                 day[7] = "21:00";
                 var _date = (day[d.getDay()].toString());
-                return (<HourlyDetails key={e.valid_date} _data={e} _date={_date} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.max_temp} description={e.weather.description} />);
+                return (<HourlyDetails key={e.valid_date} _data={e} _date={_date} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.max_temp} description={e.weather.description} humidity={e.rh} winds={e.wind_spd} />);
             });
             return (
                 <div className=" text-dark row d-flex justify-content-center">
@@ -656,7 +652,7 @@ class Hourly extends React.Component {
                         </g>
                     </svg>
                     <div className="col-8 my-4 col-xs-10 px-0 my-0 dailyz"><h5>Hourly</h5>
-                        <div className="live__scroll no-gutters" id="horizon">
+                        <div className="scrolls no-gutters" id="horizon">
                             <div className="row text-center justify-content-center no-gutters">
                                 <div className="row">
                                     {dailyWeathersz}
@@ -680,8 +676,8 @@ class Hourly extends React.Component {
 
 ReactDOM.render(
     <div>
-        <Weather1 />
         <Weather />
+        <Weather1 />
         <Weather2 />
     </div>,
     document.getElementById("root")

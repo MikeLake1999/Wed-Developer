@@ -1,6 +1,4 @@
-
-
-.live__scroll {
+.scrolls {
     overflow-x: auto;
     overflow-y: auto;
     white-space: nowrap;
@@ -9,11 +7,11 @@
     background-color: white;
 }
 
-.live__scroll .row {
+.scrolls .row {
     display: block;
 }
 
-.live__scroll .live__scroll--box {
+.scrolls .scrolls_block {
     display: inline-block;
     padding: 15px;
     width: 200px;
