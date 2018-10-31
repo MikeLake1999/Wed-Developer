@@ -1,156 +1,18 @@
-class Weather extends React.Component {
-
-    constructor(props) {
-        super(props);
-        var httpRequest = new XMLHttpRequest();
-        var url = "https://api.openweathermap.org/data/2.5/weather?q=Hanoi&appid=150615f207013e110cca89fd6e23157b";
-        httpRequest.open("GET", url, false);
-        httpRequest.send(null);
-        var cityWeather = JSON.parse(httpRequest.responseText);
-        var ctweather;
-        var d = new Date();
-        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var day = this.pad2(d.getHours()) + ":" + this.pad2(d.getMinutes());
-        var days = months[d.getMonth()];
-        var dayss = d.getDate();
-        var hour = d.getHours();
-
-        if ((cityWeather.main.temp - 273.15) % 1 >= 5) {
-            ctweather = parseInt((cityWeather.main.temp - 273.15) + 1);
-        }
-        else {
-            ctweather = parseInt(cityWeather.main.temp - 273.15);
-        }
-
-        this.state = {
-            url: "https://api.weatherbit.io/v2.0/forecast/daily?city=Hanoi&key=fc7c2563e1da4c36b42e2b3ee478f6b4",
-            cityWeatherDaily: [],
-
-            urls: "https://api.weatherbit.io/v2.0/forecast/3hourly?city=Hanoi&key=fc7c2563e1da4c36b42e2b3ee478f6b4",
-            cityWeatherHourly: [],
-            hours: hour,
-            date: day,
-            dates: days,
-            datess: dayss,
-            image: cityWeather.weather[0].icon,
-            temper: ctweather,
-            country: cityWeather.name,
-            countrytrue: cityWeather.name,
-            winds: {
-                speed: cityWeather.wind.speed,
-                degree: cityWeather.wind.deg,
-            },
-            barometer: cityWeather.main.pressure,
-            cloudiness: cityWeather.weather[0].description,
-            humidity: cityWeather.main.humidity,
-            countryname: cityWeather.sys.country,
-        };
-
-        // console.log(cityWeather.weather.icon)
+class InputForm extends React.Component {
+    inputs = (e) => {
+        this.props.inputt(e.target.value);
     }
-
-    inputz = (e) => {
-        this.setState({ country: e.target.value })
-    }
-    pad2 = (number) => {
-        number = "0" + number;
-        return number.substr(number.length - 2);
-    }
-    timetick = (tick) => {
-        var ticks = tick;
-        // Assume milliseconds for now
-        var seconds = Math.floor(ticks / 1000);
-        // console.log(seconds);
-        var hour = Math.floor((seconds / 3600) % 24);
-        var minute = Math.floor((seconds / 60) % 60);
-        var second = seconds % 60;
-
-        var result = this.pad2(hour) + ":" + this.pad2(minute) + ":" + this.pad2(second)
-        return result;
-
-    }
-
-
-    clickz = () => {
-        var httpRequest = new XMLHttpRequest();
-
-        // this.state.country[0].toUpperCase();
-        var namevar = "";
-        for (var i = 0; i < this.state.country.length; i++) {
-            if (i == 0) {
-                namevar = namevar + this.state.country[i].toUpperCase();
-            }
-            else {
-                namevar = namevar + this.state.country[i].toLowerCase();
-            }
-        }
-        console.log(namevar);
-
-        var url = "https://api.openweathermap.org/data/2.5/weather?q=" + namevar + "&appid=150615f207013e110cca89fd6e23157b";
-        httpRequest.open("GET", url, false);
-        httpRequest.send(null);
-        var cityWeather = JSON.parse(httpRequest.responseText);
-        var ctweather;
-        var d = new Date();
-        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var day = this.pad2(d.getHours()) + ":" + this.pad2(d.getMinutes());
-        var days = months[d.getMonth()];
-        var dayss = d.getDate();
-
-
-
-
-        if (Math.floor((cityWeather.main.temp - 273.15) % 1) >= 5) {
-            ctweather = parseInt((cityWeather.main.temp - 273.15) + 1);
-        }
-        else {
-            ctweather = parseInt(cityWeather.main.temp - 273.15);
-        }
-        if (namevar == cityWeather.name) {
-
-            this.setState({
-                date: day,
-                dates: days,
-                datess: dayss,
-                image: cityWeather.weather[0].icon,
-                temper: ctweather,
-                country: cityWeather.name,
-                countrytrue: cityWeather.name,
-                winds: {
-                    speed: cityWeather.wind.speed,
-                    degree: cityWeather.wind.deg,
-                },
-                cloudiness: cityWeather.weather[0].description,
-                humidity: cityWeather.main.humidity,
-                barometer: cityWeather.main.pressure,
-                countryname: cityWeather.sys.country,
-
-            })
-            this.setState({ countrytrue: this.state.country })
-
-        }
-
+    enterned = (e) => {
+        this.props._enterned(e.key);
     }
     render() {
-        var imagez = "https://openweathermap.org/img/w/" + this.state.image + ".png";
-        var wind = this.state.winds.speed;
-        var cloudiness = this.state.cloudiness;
-        var humidity = this.state.humidity + " %";
-        var countryname = this.state.country;
-        var temp = this.state.temper;
-        var datet = this.state.date;
-        var datett = this.state.dates;
-        var datettt = this.state.datess;
-        var barometer = this.state.barometer;
-        var hour = this.state.hours;
         return (
-            <div className="">
-                <div className="h4 btn-light text-mute">
+            <div class="container">
+                <div className="h4 btn-light">
                     <strong>Forecast</strong>
                 </div>
-                <div className="">
-
-                    <input class="form-control grey-200 btn-block btn-lg " type="text" onChange={this.inputz} placeholder="Input City Name................." />
+                <div>
+                    <input class="text-center form-control grey-200 btn-block btn-lg" onChange={this.inputs} onKeyPress={this.enterned} placeholder="Search" onChange={this.inputs} placeholder="Input City Name" type="text" />
                     <span>
                         <button class="form-control btn btn-warning" onClick={this.clickz}><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 16 16">
                             <g>
@@ -161,32 +23,89 @@ class Weather extends React.Component {
                         </button>
                     </span>
                     <br />
-                    <h2 className="text-center text-secondary">{this.state.countrytrue}, {this.state.countryname}</h2>
-                    <div class="text-center">
-                        <h2 class="display-3"><img alt="Responsive image" src={imagez} width="100" height="100" />{temp}°C</h2>
-
-
-                    </div>
-                    <strong>
-                        <p class="mb-1 text-center text-secondary">{cloudiness.toUpperCase()}</p>
-                    </strong>
-                    <p class=" text-center">Update as of {datet}</p>
-                    <strong>
-                        <p class=" text-center text-secondary">Feels like: {temp + 3}°　 Wind: ⇖{wind} m/s　 Visibility: 10 km</p>
-                        <p class=" text-center text-secondary">Barometer: {barometer}.00 mb　　Humidity: {humidity}　　Dew Point: {temp - 6}°</p>
-                    </strong>
-
                 </div>
             </div>
         );
     }
 }
 
-class Weather1 extends React.Component {
+class GetInput extends React.Component {
+    getCity = (value) => {
+        this.props._getCity(value)
+    }
+    render() {
+        var searchDetail = this.props._citySearch.map(e => {
+            return (<div className="CityItem" onClick={this.getCity}>{this.props.city},&nbsp;{this.props.country}
+                key={e.key} _getCity={this.getCity} city={e.LocalizedName} country={e.Country.ID}</div>);
+        })
+        return (<div className="  dropdown-content">
+            {searchDetail}
+        </div>);
+
+    }
+}
+
+class Search extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = ({ isClick: false })
+    }
+    onClickNoEvent = () => {
+        this.setState({
+            isClick: !this.state.isClick
+        });
+        this.props.buttonz(this.state.isClick);
+    }
+    inputed = (value) => {
+        this.props.getInput(value);
+    }
+    onEnterned = (value) => {
+        this.props.confirmSearch(value);
+    }
+    getCity = (value) => {
+        this.props._getCity(value);
+    }
+    render() {
+        const _isClick = this.state.isClick;
+        const styleInput = _isClick ? { visibility: "visible" } : { visibility: "hidden" };
+        return (
+            <div>
+                <div className="form-inline my-2 my-lg-0 searchz mr-3">
+                    <InputForm styleInput={styleInput} inputt={this.inputed} _enterned={this.onEnterned} />
+                </div>
+                <GetInput _citySearch={this.props.citySearch} _getCity={this.getCity} enter={this.onEnterned} />
+            </div>
+        );
+    };
+}
+
+class TopWed extends React.Component {
+    inputed = (value) => {
+        this.props.searchz(value);
+    }
+    onEnterned = (value) => {
+        this.props.enter(value);
+    }
+    getCity = (value) => {
+        this.props._getCity(value)
+    }
+    _button = (value) => {
+        this.props.buttonz(value);
+    }
+    render() {
+        return (<div className="navbar topbarz ">
+            <Search getInput={this.inputed} _getCity={this.getCity} buttonz={this._button} confirmSearch={this.onEnterned} citySearch={this.props._citySearch} />
+        </div>);
+    }
+}
+
+class Weather extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = ({
+            searchcity: "",
             city: "hanoi",
             weather: [],
             weathermain: {},
@@ -199,21 +118,16 @@ class Weather1 extends React.Component {
     }
 
 
-    HomePage = () => {
-        this.setState({ city: "hanoi" });
-    }
-
-
     componentDidMount() {
 
-        var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
+        var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
 
         fetch(url).then(response => {
             if (response.status == 200) {
                 return response.json()
             }
             else {
-                this.setState({ noti: "Something went wrong, sorry about that!" })
+                this.setState({ noti: "Eror 4400!" })
             }
         }).then(weatherres => {
             this.setState({
@@ -222,97 +136,117 @@ class Weather1 extends React.Component {
                 currentid: weatherres.data[0].valid_date
             });
 
+            document.getElementById(this.state.currentid).className = "scroll_Ngang align-self-baseline daychoose";
+
         })
     }
-    // componentDidUpdate(prevProps, prevState) {
 
-    //     if (this.state.city !== prevState.city) {
-    //         var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
+    
+    componentDidUpdate(prevProps, prevState) {
 
-    //         fetch(url).then(response => {
-    //             if (response.status == 200) {
-    //                 this.setState({ noti: "" });
-    //                 return response.json()
-    //             }
-    //             else {
-    //                 this.setState({ noti: "Can not find country" })
-    //             }
-    //         }).then(weatherres => {
-    //             this.setState({
-    //                 weather: weatherres,
-    //                 weathermain: weatherres.data[0],
-    //                 currentid: weatherres.data[0].valid_date,
-    //                 searchcity: ""
-    //             });
+        if (this.state.city !== prevState.city) {
+            var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
 
-    //         })
-    //     }
-    // }
+            fetch(url).then(response => {
+                if (response.status == 200) {
+                    this.setState({ noti: "" });
+                    return response.json()
+                }
+                else {
+                    this.setState({ noti: "The System Can't Find Your Country Side!" })
+                }
+            }).then(weatherres => {
+                this.setState({
+                    weather: weatherres,
+                    weathermain: weatherres.data[0],
+                    currentid: weatherres.data[0].valid_date,
+                    searchcity: ""
+                });
 
+                try {
+                } catch (error) {
 
-    // searchz = (value) => {
-    //     this.setState({ presearchcity: this.state.searchcity });
-    //     this.setState({ searchcity: value });
-    // }
+                }
+                this.setState({ preid: this.state.currentid });
+            })
+        }
 
-
-    // enter = (value) => {
-    //     if (value === "Enter") {
-    //         this.setState({ city: this.state.searchcity });
-    //         document.getElementById('Search').value = "";
-    //     }
-    // }
+        
 
 
-    // selectWeather = (value) => {
-    //     this.setState({ preid: this.state.currentid });
-    //     this.setState({ currentid: value.valid_date.toString() });
-    //     this.setState({
-    //         weathermain: value,
-    //         searchcity: ""
-    //     });
+        if (this.state.weathermain != prevState.weathermain) {
+            document.getElementById(this.state.currentid).className = "scroll_Ngang align-self-baseline daychoose";
+            try {
+                document.getElementById(this.state.preid).className = "scroll_Ngang align-self-baseline";
+            } catch (error) { }
+        }
+    }
+    
 
-    // }
-
-
-    // onClickHandle = (value) => {
-    //     var t = value ? "F" : "C";
-    //     this.setState({
-    //         CF: t,
-    //         searchcity: ""
-    //     });
-    // }
+    searchz = (value) => {
+        this.setState({ presearchcity: this.state.searchcity });
+        this.setState({ searchcity: value });
+    }
 
 
-    // pickCity = (value) => {
-    //     this.setState({
-    //         city: value.city + ", " + value.country,
-    //         searchcity: ""
-    //     });
-    //     document.getElementById('Search').value = ""
-    // }
+    enter = (value) => {
+        if (value === "Enter") {
+            this.setState({ city: this.state.searchcity });
+            document.getElementById('Search').value = "";
+        }
+    }
 
-    // button = (value) => {
-    //     if (value == true) {
-    //         this.setState({ searchcity: "" });
-    //         document.getElementById('Search').value = ""
-    //     }
-    // }
+
+    selectItem = (value) => {
+        this.setState({ preid: this.state.currentid });
+        this.setState({ currentid: value.valid_date.toString() });
+        this.setState({
+            weathermain: value,
+            searchcity: ""
+        });
+
+    }
+
+
+    onClickHandle = (value) => {
+        var t = value ? "F" : "C";
+        this.setState({
+            CF: t,
+            searchcity: ""
+        });
+    }
+
+
+    getCity = (value) => {
+        this.setState({
+            city: value.city + ", " + value.country,
+            searchcity: ""
+        });
+        document.getElementById('Search').value = ""
+    }
+
+    _button = (value) => {
+        if (value == true) {
+            this.setState({ searchcity: "" });
+            document.getElementById('Search').value = ""
+        }
+    }
 
     render() {
         return (
             <div>
-                {/* <NavBar searchz={this.searchz} buttonz={this._button}_pickCity={this.pickCity} HomePage={this.HomePage} enter={this.enter} _citySearch={this.state.cities} _onClickHandle={this.onClickHandle} /> */}
-                <WeatherDetails CF={this.state.CF} noti={this.state.noti} weather={this.state.weather} _country={this.state.weather.country_code} _city={this.state.weather.city_name} weatherm={this.state.weathermain} _onClickHandle={this.onClickHandle} _selectWeather={this.selectWeather} />
+                <TopWed searchz={this.searchz} buttonz={this._button} _getCity={this.getCity} HomePage={this.HomePage} enter={this.enter} _citySearch={this.state.cities} _onClickHandle={this.onClickHandle} />
+                <ShowDaily CF={this.state.CF} noti={this.state.noti} weather={this.state.weather} _country={this.state.weather.country_code} _city={this.state.weather.city_name} weatherm={this.state.weathermain} _onClickHandle={this.onClickHandle} _selectItem={this.selectItem} />
+                <ShowHourly CF={this.state.CF} noti={this.state.noti} weather={this.state.weather} _country={this.state.weather.country_code} _city={this.state.weather.city_name} weatherm={this.state.weathermain} _onClickHandle={this.onClickHandle} _selectWeather={this.selectWeather} />
             </div>
         );
     }
 }
 
 
-class WeatherDetails extends React.Component {
-    selectWeather = (value) => {
-        this.props._selectWeather(value);
+class ShowDaily extends React.Component {
+    selectItem = (value) => {
+        this.props._selectItem(value);
     }
     onClickHandle = (value) => {
         this.props._onClickHandle(value);
@@ -321,10 +255,14 @@ class WeatherDetails extends React.Component {
         if (this.props.weather.length == 0) {
             return <div></div>;
         }
+        var weatherm = this.props.weatherm;
+        var _city = this.props._city;
+        var _country = this.props._country;
         var noti = this.props.noti;
         var _daily = this.props.weather;
         return (<div>
-            <Daily dailyData={_daily} _noti={noti} _selectWeather={this.selectWeather} />
+            <OneDay value={weatherm} country={_country} noti={noti} city={_city} _onClickHandle={this.onClickHandle} />
+            <Daily dailyData={_daily} _noti={noti} _selectItem={this.selectItem} />
         </div>);
     }
 
@@ -332,13 +270,13 @@ class WeatherDetails extends React.Component {
 
 
 
-class DailyWeather extends React.Component {
-    selectWeather = () => {
-        this.props._selectWeather(this.props._data);
+class DailyDetails extends React.Component {
+    selectItem = () => {
+        this.props._selectItem(this.props._data);
     }
     render() {
         return (
-            <div id={this.props._data.valid_date} className="scrolls_block align-self-baseline" onClick={this.selectWeather}>
+            <div id={this.props._data.valid_date} className="scroll_Ngang align-self-baseline">
                 <div>{this.props._date}</div>
                 <img className="d-inline" height="40" width="40" src={this.props._src} />
                 <div>
@@ -351,12 +289,17 @@ class DailyWeather extends React.Component {
     }
 }
 
-
-
-
 class Daily extends React.Component {
-    selectWeather = (value) => {
-        this.props._selectWeather(value);
+    selectItem = (value) => {
+        this.props._selectItem(value);
+    }
+    _scrollLeft = () => {
+        var elmnt = document.getElementById("horizon");
+        elmnt.scrollLeft = elmnt.scrollLeft - 100;
+    }
+    _scrollRight = () => {
+        var elmnt = document.getElementById("horizon");
+        elmnt.scrollLeft = elmnt.scrollLeft + 100;
     }
     render() {
         if (this.props._noti == "") {
@@ -372,17 +315,17 @@ class Daily extends React.Component {
                 day[5] = "Fri";
                 day[6] = "Sat";
                 var _date = (day[d.getDay()] + " " + d.getDate()).toString();
-                return (<DailyWeather key={e.date} _data={e} _date={_date} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.max_temp} mintemp={e.min_temp} description={e.weather.description} />);
+                return (<DailyDetails key={e.valid_date} _data={e} _date={_date} _src={_src} _selectItem={this.selectItem} maxtemp={e.max_temp} mintemp={e.min_temp} description={e.weather.description} />);
             });
             return (
-                <div className=" text-dark row d-flex justify-content-center">
+                <div className="row d-flex align-items-center d-flex justify-content-center mx-auto px-auto">
                     <svg className="d-none d-md-inline col-2 buttonscr px-0 py-0 mx-0 py-0" xmlns="http://www.w3.org/2000/svg" onClick={this._scrollLeft} height="24" width="24" viewBox="0 0 24 24">
                         <g>
                             <path id="path1" transform="rotate(0,12,12) translate(2.50499939918518,0) scale(0.75,0.75)  " fill="#FFFFFF" d="M25.320001,0L25.320001,32 0,16z" />
                         </g>
                     </svg>
                     <div className="col-8 my-4 col-xs-10 px-0 my-0 dailyz"><h5>Daily</h5>
-                        <div className="scrolls no-gutters" id="horizon">
+                        <div className="scroll no-gutters" id="horizon">
                             <div className="row text-center justify-content-center no-gutters">
                                 <div className="row">
                                     {dailyWeathersz}
@@ -404,172 +347,54 @@ class Daily extends React.Component {
     }
 }
 
-
-
-class Weather2 extends React.Component {
+class OneDay extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = ({
-            city: "hanoi",
-            weather: [],
-            weathermain: {},
-            noti: "",
-            currentid: "",
-            preid: "",
-            cities: [],
-            CF: ""
+            isClick: true
         })
     }
-
-
-    HomePage = () => {
-        this.setState({ city: "hanoi" });
+    onClickHandle = () => {
+        this.setState({ isClick: !this.state.isClick })
+        this.props._onClickHandle(this.state.isClick);
     }
-
-
-    componentDidMount() {
-
-        var url = "https://api.weatherbit.io/v2.0/forecast/3hourly?city=" + this.state.city + "&key=fc7c2563e1da4c36b42e2b3ee478f6b4";
-
-        fetch(url).then(response => {
-            if (response.status == 200) {
-                return response.json()
-            }
-            else {
-                this.setState({ noti: "Something went wrong, sorry about that!" })
-            }
-        }).then(weatherres => {
-            this.setState({
-                weather: weatherres,
-                weathermain: weatherres.data[0],
-                currentid: weatherres.data[0].valid_date
-            });
-
-
-            document.getElementById(this.state.currentid).className = "scrolls_block align-self-baseline daychoose";
-
-        })
+    num2 = (number) => {
+        number = "0" + number;
+        return number.substr(number.length - 2);
     }
-    // componentDidUpdate(prevProps, prevState) {
-
-    //     if (this.state.city !== prevState.city) {
-    //         var url = "https://api.weatherbit.io/v2.0/forecast/daily?city=" + this.state.city + "&key=4aa70bd602ba4d12842da8391046399f";
-
-    //         fetch(url).then(response => {
-    //             if (response.status == 200) {
-    //                 this.setState({ noti: "" });
-    //                 return response.json()
-    //             }
-    //             else {
-    //                 this.setState({ noti: "Can not find country" })
-    //             }
-    //         }).then(weatherres => {
-    //             this.setState({
-    //                 weather: weatherres,
-    //                 weathermain: weatherres.data[0],
-    //                 currentid: weatherres.data[0].valid_date,
-    //                 searchcity: ""
-    //             });
-
-    //             var weathermain = this.state.weathermain;
-    //             var weather = this.state.weather;
-
-    //             if (this.state.CF == "F") {
-    //                 for (var i = 0; i < 16; i++) {
-    //                     weather.data[i].temp = parseFloat((weather.data[i].temp * 1.8) + 32).toFixed(1);
-    //                     weather.data[i].min_temp = parseFloat((weather.data[i].min_temp * 1.8) + 32).toFixed(1);
-    //                     weather.data[i].max_temp = parseFloat((weather.data[i].max_temp * 1.8) + 32).toFixed(1);
-    //                 }
-    //             }
-
-    //             this.setState({
-    //                 weather: weather,
-    //                 weathermain: weathermain
-    //             });
-
-    //             document.getElementById(this.state.currentid.toString()).className = "scrolls_block align-self-baseline daychoose";
-
-    //             try {
-    //             } catch (error) {
-
-    //             }
-    //             this.setState({ preid: this.state.currentid });
-    //         })
-    //     }
-
-
-    //     if (this.state.weathermain != prevState.weathermain) {
-    //         document.getElementById(this.state.currentid).className = "scrolls_block align-self-baseline daychoose";
-    //         try {
-    //             document.getElementById(this.state.preid).className = "scrolls_block align-self-baseline";
-    //         } catch (error) {
-
-    //         }
-
-
-    //         this.setState({ preid: this.state.currentid })
-
-    //     }
-    // }
-
-
-    // searchz = (value) => {
-    //     this.setState({ presearchcity: this.state.searchcity });
-    //     this.setState({ searchcity: value });
-    // }
-
-
-    // enter = (value) => {
-    //     if (value === "Enter") {
-    //         this.setState({ city: this.state.searchcity });
-    //         document.getElementById('Search').value = "";
-    //     }
-    // }
-
-
-    // selectWeather = (value) => {
-    //     this.setState({ preid: this.state.currentid });
-    //     this.setState({ currentid: value.valid_date.toString() });
-    //     this.setState({
-    //         weathermain: value,
-    //         searchcity: ""
-    //     });
-
-    // }
-
-
-    // onClickHandle = (value) => {
-    //     var t = value ? "F" : "C";
-    //     this.setState({
-    //         CF: t,
-    //         searchcity: ""
-    //     });
-    // }
-
-
-    // pickCity = (value) => {
-    //     this.setState({
-    //         city: value.city + ", " + value.country,
-    //         searchcity: ""
-    //     });
-    //     document.getElementById('Search').value = ""
-    // }
-
-    // _button = (value) => {
-    //     if (value == true) {
-    //         this.setState({ searchcity: "" });
-    //         document.getElementById('Search').value = ""
-    //     }
-    // }
-
     render() {
-        return (
-            <div>
-                {/* <NavBar searchz={this.searchz} buttonz={this._button}_pickCity={this.pickCity} HomePage={this.HomePage} enter={this.enter} _citySearch={this.state.cities} _onClickHandle={this.onClickHandle} /> */}
-                <ShowHourly CF={this.state.CF} noti={this.state.noti} weather={this.state.weather} _country={this.state.weather.country_code} _city={this.state.weather.city_name} weatherm={this.state.weathermain} _onClickHandle={this.onClickHandle} _selectWeather={this.selectWeather} />
-            </div>
-        );
+        var speedw = parseFloat(this.props.value.wind_spd * 3600 / 1000).toFixed(1);
+        var imgz = "https://www.weatherbit.io/static/img/icons/" + this.props.value.weather.icon + ".png";
+        var d = new Date();
+        var timez = this.num2(d.getHours()) + ":" + this.num2(d.getMinutes())
+        if (this.props.noti == "") {
+            return (
+                <div className="container">
+                    <div className="">
+                        <h2 className="text-center text-secondary">{this.props.city}, {this.props.country}</h2>
+                        <div className="text-center">
+                            <h2 class="display-3"><img alt="Image" width="100" height="100" src={imgz} />{this.props.value.temp}°C</h2>
+                        </div>
+                        <strong>
+                            <h4 class="mb-1 text-center text-secondary">{this.props.value.weather.description}</h4>
+                        </strong>
+                        <p class=" text-center">Update as of {timez}</p>
+                        <strong>
+                            <p class=" text-center text-secondary">Feels like: {this.props.value.temp}°　 Wind: ⇖{speedw} km/h　 Visibility: {parseFloat(this.props.value.vis).toFixed(1)} km</p>
+                            <p class=" text-center text-secondary">Barometer: {this.props.value.pres} mb　Humidity: {this.props.value.rh}%　Dew Point: {this.props.value.dewpt}°</p>
+                        </strong>
+                    </div>
+
+                </div>
+
+            );
+        }
+        else {
+            return (<div className="row px-auto mx-auto">
+                <h1 className="mx-auto currentweatherz align-content-center justify-content-center">{this.props.noti}</h1>
+            </div>);
+        }
     }
 }
 
@@ -602,7 +427,7 @@ class HourlyDetails extends React.Component {
     }
     render() {
         return (
-            <div id={this.props._data.valid_date} className="scrolls_block align-self-baseline" onClick={this.selectWeather}>
+            <div id={this.props._data.valid_date} className="scroll_Ngang align-self-baseline" onClick={this.selectWeather}>
                 <img className="d-inline" height="40" width="40" src={this.props._src} />
                 <div>
                     <h5 className="d-inline">{this.props.maxtemp + 2}<sup>o</sup></h5>
@@ -621,8 +446,6 @@ class HourlyDetails extends React.Component {
     }
 }
 
-
-
 class Hourly extends React.Component {
     selectWeather = (value) => {
         this.props._selectWeather(value);
@@ -631,7 +454,7 @@ class Hourly extends React.Component {
         if (this.props._noti == "") {
             var dailyWeathersz = this.props.dailyData.data.map(e => {
                 var _src = "https://www.weatherbit.io/static/img/icons/" + e.weather.icon + ".png";
-            
+
                 return (<HourlyDetails key={e.valid_date} _data={e} date={e.datetime} _src={_src} _selectWeather={this.selectWeather} maxtemp={e.temp} description={e.weather.description} humidity={e.rh} winds={e.wind_spd} />);
             });
             return (
@@ -642,7 +465,7 @@ class Hourly extends React.Component {
                         </g>
                     </svg>
                     <div className="col-8 my-4 col-xs-10 px-0 my-0 dailyz"><h5>Hourly</h5>
-                        <div className="scrolls no-gutters" id="horizon">
+                        <div className="scroll no-gutters" id="horizon">
                             <div className="row text-center justify-content-center no-gutters">
                                 <div className="row">
                                     {dailyWeathersz}
@@ -665,10 +488,9 @@ class Hourly extends React.Component {
 }
 
 ReactDOM.render(
-    <div>
-        <Weather />
-        <Weather1 />
-        <Weather2 />
-    </div>,
+    
+    <Weather />,
+    
+    
     document.getElementById("root")
 )

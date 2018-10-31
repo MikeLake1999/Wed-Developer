@@ -1,23 +1,19 @@
-.scrolls {
+
+
+.scroll {
+    white-space: nowrap;
     overflow-x: auto;
     overflow-y: auto;
-    white-space: nowrap;
     padding: 0px;
-    margin-left: 2px;
     background-color: white;
 }
 
-.scrolls .row {
+.scroll .row {
     display: block;
 }
 
-.scrolls .scrolls_block {
+.scroll .scroll_Ngang {
     display: inline-block;
-    padding: 15px;
-    width: 200px;
-    height: 150px;
-    margin-right: 1px;
-    margin-left: 1px;
-    margin-bottom: 0px;
-    cursor: pointer;
+    padding: 20px;
+    width: 175px;
 }
